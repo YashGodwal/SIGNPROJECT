@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+</head>
+<body>
+    <h2>Sign In</h2>
+    <form id="login-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Sign In</button>
+    </form>
+
+    <script>
+          document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                console.log(data);
+                alert('Login successful');
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('An error occurred while trying to login');
+        }
+    });
+    </script>
+</body>
+</html>
